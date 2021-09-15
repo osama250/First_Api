@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Route;
     //return $request->user();
 //});
 
-
+    // to get all posts
 Route::get('/posts', [PostController::class,'index'] );
-
+    // to get one post
 Route::get('/post/{id}',[PostController::class,'show']);
+    // to insert post
+Route::post('/posts',[PostController::class,'store']);  
