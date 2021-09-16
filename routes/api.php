@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,13 +20,26 @@ use Illuminate\Support\Facades\Route;
     //return $request->user();
 //});
 
-    // to get all posts
-Route::get('/posts', [PostController::class,'index'] );
-    // to get one post
-Route::get('/post/{id}',[PostController::class,'show']);
-    // to insert post
-Route::post('/posts',[PostController::class,'store']);
-    // to update post
-Route::post('/post/{id}',[PostController::class,'update']);
-    // to delete post
-Route::post('/posts/{id}',[PostController::class,'destroy']);
+    Route::group([
+        'middleware' => 'api',
+        'prefix' => 'auth'
+
+    ], function ($router) {
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+        Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    });
+
+
+            // to get all posts
+        Route::get('/posts', [PostController::class,'index'] );
+            // to get one post
+        Route::get('/post/{id}',[PostController::class,'show']);
+            // to insert post
+        Route::post('/posts',[PostController::class,'store']);
+            // to update post
+        Route::post('/post/{id}',[PostController::class,'update']);
+            // to delete post
+        Route::post('/posts/{id}',[PostController::class,'destroy']);
