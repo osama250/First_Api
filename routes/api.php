@@ -33,13 +33,15 @@ use Illuminate\Support\Facades\Route;
     });
 
 
-            // to get all posts
-        Route::get('/posts', [PostController::class,'index'] );
-            // to get one post
-        Route::get('/post/{id}',[PostController::class,'show']);
-            // to insert post
-        Route::post('/posts',[PostController::class,'store']);
-            // to update post
-        Route::post('/post/{id}',[PostController::class,'update']);
-            // to delete post
-        Route::post('/posts/{id}',[PostController::class,'destroy']);
+    Route::middleware(['jwt.verify'])->group(function () {
+                // to get all posts
+            Route::get('/posts', [PostController::class,'index'] );
+                // to get one post
+            Route::get('/post/{id}',[PostController::class,'show']);
+                // to insert post
+            Route::post('/posts',[PostController::class,'store']);
+                // to update post
+            Route::post('/post/{id}',[PostController::class,'update']);
+                // to delete post
+            Route::post('/posts/{id}',[PostController::class,'destroy']);
+    });
